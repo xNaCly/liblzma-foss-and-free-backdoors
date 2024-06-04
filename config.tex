@@ -1,14 +1,9 @@
-\documentclass[12pt, a4paper, parskip=half]{scrreport}
+\documentclass[twocolumn, 12pt, a4paper]{article}
 
-% Font: Helvetica
-\usepackage[T1]{fontenc}
 \usepackage{helvet}
+\usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \renewcommand{\familydefault}{\sfdefault}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows}
-\usepackage{pgfplots}
-\usepackage{pgfplotstable}
 
 \usepackage[
     backend=biber,
@@ -22,12 +17,11 @@
 
 \usepackage[margin=2.5cm, foot=1cm]{geometry}
 \usepackage[hidelinks=false]{hyperref}
-\usepackage[chapter]{minted}
+\usepackage{minted}
 \usemintedstyle{perldoc}
 \usepackage{float}
 \usepackage{graphicx}
 
-\let\endtitlepage\relax
 \setlength{\parindent}{0cm}
 \renewcommand{\sectionautorefname}{Section}
 \renewcommand{\subsectionautorefname}{Section}
