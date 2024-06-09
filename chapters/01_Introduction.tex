@@ -18,7 +18,6 @@ open-source software, but rather as open-source software.
 
 
 \subsection{Dependence on FOSS and OSS}
-
 Open source software is often divided into reusable components, such as
 libraries or toolkits implementing a specific feature, and built upon by other
 software. The goal is to use tried and tested components in the creation of new
@@ -27,7 +26,19 @@ community.
 
 Not only does OSS depend on other libraries from the OSS ecosystem. Proprietary
 software also makes use of said OSS components, while being forced to adhere to
-their terms, as declared in their respective licenses.
+their terms, as declared in their respective licenses \cite{libcurl2024usage}. 
+
+Commonly used examples for said libraries are \texttt{libcurl}, which provides
+multiprotocol file transfers \cite{libcurl2024overview}, \texttt{raylib} which
+is a libary for videogames programming \cite{raylib2024landing} and the
+\texttt{sqlite} library, that implements a in process database
+\cite{sqlite2024landing}.
+
+\begin{figure}[H]
+    \includegraphics[scale=0.5]{assets/dependency.png}
+    \caption{Dependency \cite{xkcdUnknownDependency}}
+    \label{img:dependency}
+\end{figure}
 
 \subsection{Supply Chain Security}
 
