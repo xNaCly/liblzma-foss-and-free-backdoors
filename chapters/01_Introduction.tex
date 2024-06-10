@@ -2,22 +2,31 @@
 
 FOSS\footnote{Free and Open-Source Software \cite{stallmann2021copyleft}} is
 generally defined as software the user can ``[...] run, copy, distribute,
-study, change and improve [...]'' \cite{fsf2024whycopylef}. This requires the
-source to be available and enables the dependence of other software on subsets
-or the entirety of the code. On the other hand, source available or
+study, change and improve [...]'' \cite{fsf2024whycopylef}. This requires
+the source to be available and enables the dependence of other software on
+subsets or the entirety of the code. On the other hand, source available or
 OSS\footnote{Open-Source Software} are distinct from FOSS software. Some
 licenses do not require the resulting product to be licensed under the same
 license as its dependencies, such as the MIT license\footnote{Requires the
-license to be present in ``all copies or substantial portions of the Software''
-\cite{osorg2024mit}}. It therefore differs from the GPL\footnote{Requires all
-copies of the software to be licensed as GPL \cite{osorg2024gpl}} and software
-licensed with the MIT-Licence can therefore not be referred to as free
-open-source software, but rather as open-source software.
-
-% TODO: WRITE MORE HERE
-
+license to be present in ``all copies or substantial portions of the
+Software'' \cite{osorg2024mit}}. It therefore differs from the
+GPL\footnote{Requires all copies of the software to be licensed as GPL
+\cite{osorg2024gpl}} and software licensed with the MIT-Licence can
+therefore not be referred to as free open-source software, but rather as
+open-source software. \newline 
+Most OSS-projects accept contributions from individuals and enterprises.
+This is wanted and required to support the actuality of said software. Most
+OSS projects accept changes matching their pre-defined contribution
+guidelines and credit the contributor for their addition. These contributors
+often use the software they are contributing to and therefore make changes
+they care for, such as adding drivers for new devices to the linux kernel
+\cite{linuxUnknownDevicedrivers}. However, other independent OSS
+contributors are abusing the contribution system by exploiting the trust the
+unpaid maintainers have in the quality of the submitted changes. As was the
+case with \texttt{liblzma} or the \texttt{xz-utils} OSS library.
 
 \subsection{Dependence on FOSS and OSS}
+
 Open source software is often divided into reusable components, such as
 libraries or toolkits implementing a specific feature, and built upon by other
 software. The goal is to use tried and tested components in the creation of new
@@ -28,17 +37,18 @@ Not only does OSS depend on other libraries from the OSS ecosystem. Proprietary
 software also makes use of said OSS components, while being forced to adhere to
 their terms, as declared in their respective licenses \cite{libcurl2024usage}. 
 
-Commonly used examples for said libraries are \texttt{libcurl}, which provides
-multiprotocol file transfers \cite{libcurl2024overview}, \texttt{raylib} which
-is a libary for videogames programming \cite{raylib2024landing} and the
-\texttt{sqlite} library, that implements a in process database
-\cite{sqlite2024landing}.
 
 \begin{figure}[H]
     \includegraphics[scale=0.5]{assets/dependency.png}
     \caption{Dependency \cite{xkcdUnknownDependency}}
     \label{img:dependency}
 \end{figure}
+
+Commonly used examples for said libraries are \texttt{libcurl}, which provides
+multiprotocol file transfers \cite{libcurl2024overview}, \texttt{raylib} which
+is a libary for videogames programming \cite{raylib2024landing} and the
+\texttt{sqlite} library, that implements a in process database
+\cite{sqlite2024landing}.
 
 \subsection{Supply Chain Security}
 
