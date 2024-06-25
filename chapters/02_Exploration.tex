@@ -15,8 +15,57 @@ non-malicious software.
 
 \subsection{Implementation}
 
-The backdoor into \texttt{libzlma} 
+\texttt{CVE-2024-3094} was assigned to the \texttt{libzlma} backdoor with the
+highest possible CVSS Score: $10.0$. This assessement was made due to the
+severness of the included remote code execution \cite{redhat2024cve}. 
 
-\subsection{Social Engineering}
-\subsection{Pressure on OSS Maintainer}
-\subsection{Affected Systems}
+\subsection{Social Engineering \& Pressure on OSS Maintainer}
+
+\begin{itemize}
+    \item mental health issues
+    \item attacker helps maintainer
+    \item attacker gains maintainer status
+    \item attacker manages project home page and oss-fuzz email
+    \item attacker announces and publishes releases
+\end{itemize}
+
+\subsection{Build Pipeline Manipulation}
+
+\begin{itemize}
+    \item attacker makes changes to test files 
+    \item attacker makes changes to build pipeline (autoconf)
+    \item attacker injects malicious shell code into test files
+    \item test files are being decompressed, decrypted and injected into the shared object 
+\end{itemize}
+
+\subsection{IFUNC \& CPU specific Features}
+
+\begin{itemize}
+    \item IFUNC is used to switch to a hardware supported function implementation at runtime
+    \item abused by the attacker to replace the \texttt{openssh} function \texttt{RSA\_public\_decrypt()}
+    \item replaced with execution of injected shell code via \texttt{system()}
+\end{itemize}
+
+\subsection{Indirect Dependence on libzlma}
+
+\begin{itemize}
+    \item \texttt{openssh} does not depend on \texttt{libzlma}
+    \item common patches link \texttt{openssh} dynamically against \texttt{libsystemd}, which links agains \texttt{liblzma}
+    \item making \texttt{openssh} vulnerable via indirect dependence
+\end{itemize}
+
+\subsection{Modifying ELF \& Executing Shell Code}
+
+\begin{itemize}
+    \item \texttt{openssh} does not depend on \texttt{libzlma}
+    \item common patches link \texttt{openssh} dynamically against \texttt{libsystemd}, which links agains \texttt{liblzma}
+    \item making \texttt{openssh} vulnerable via indirect dependence
+\end{itemize}
+
+\subsection{Prerequisites for the Backdoor}
+
+\begin{itemize}
+    \item built with \texttt{GCC} and \texttt{glibc}
+    \item shared object is opened on \texttt{x86-64}
+    \item built by \texttt{dpkg} or \texttt{rpm}
+\end{itemize}

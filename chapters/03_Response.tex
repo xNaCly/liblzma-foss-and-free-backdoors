@@ -1,5 +1,26 @@
 \section{Response}
 
-\subsection{Patches}
-\subsection{Releases on Hold}
-\subsection{Vetting Source Code}
+\subsection{Detection}
+
+\begin{itemize}
+    \item Detected by Andres Freund on 29th March 2024
+    \item PostgreSQL developer
+    \item noticed high CPU usage and Valgrind errors when attempting to connect via SSH
+    \item compromised version not yet deployed to production systems but dev builds
+\end{itemize}
+
+
+\subsection{Software Distributors Reactions}
+
+\begin{itemize}
+    \item Red Hat, SUSE and Debian downgraded \texttt{libzlma} to its previous version
+    \item Ubuntu held the beta release of Ubutun 24.04 LTS back by a week and
+        rebuild all binaries of the distros packages
+\end{itemize}
+
+\subsection{Supply Chain Security}
+
+\begin{itemize}
+    \item should critical parts of the software supply chain depend on unpaid volunteers
+    \item keeping the supply chain secure
+\end{itemize}
