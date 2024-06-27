@@ -4,6 +4,7 @@
 % https://www.reddit.com/r/programming/comments/1bv8k7f/the_role_of_ifunc_in_the_xz_backdoor/
 % https://github.com/openssl/openssl/blob/master/crypto/rsa/rsa_crpt.c#L51
 % https://gitlab.com/cy4n/talk-backdoorxz-pub/-/raw/main/xz_gpn.pdf
+% https://gist.github.com/thesamesam/223949d5a074ebc3dce9ee78baad9e27
 \section{Backdoor Exploration}
 
 According to \cite{wysopal2007static}, a backdoor refers to a hidden method of
@@ -18,19 +19,38 @@ non-malicious software.
 \texttt{CVE-2024-3094} was assigned to the \texttt{libzlma} backdoor with the
 highest possible CVSS Score: $10.0$. This assessement was made due to the
 severness of the included remote code execution \cite{redhat2024cve}. The
-sophistication of this backdoor suggests a highly proficient attacker.
+sophistication of this backdoor suggests a highly proficient attacker known by
+several confirmed aliases, such as \textit{Jia Tan} (\texttt{JiaT75}),
+\textit{Jigar Kumar}, \texttt{krygorin4545}, \texttt{misoeater91} and
+\textit{Hans Jansen}.
 
 \subsection{Social Engineering \& Pressure on OSS Maintainer}
 
-\begin{itemize}
-    \item mental health issues
-    \item attacker helps maintainer
-    \item attacker gains maintainer status
-    \item attacker manages project home page and oss-fuzz email
-    \item attacker announces and publishes releases
-\end{itemize}
+The process of injecting oneself into the group of maintainers of a open source
+software project is a complicated and tedious one. OSS-projects are often led
+by a close group of individuals, which often proved themselves by contributing
+constructive additions over a long period of time.
+
+A threat actor, whether state-sponsored or a group of individuals, most often
+do not take this approach to tampering with software for the purpose of
+implementing a backdoor. However this particular backdoor was implemented with
+said path over the course of three years.
+
+Specifically the threat actor abused the mental state of the lead maintainer by
+applying pressure on them via sock puppet accounts\footnote{false online
+identity created and used specifically for deceptive purposes} and depicting
+the project changes made by the lead maintainer as slow and not begin up to
+date enough. Using said pressure in combination with the maintainers mental
+health issues enabled the threat actor to gain the trust and therefore the
+co-maintainer position \cite{arstechnica2024xzutils}. 
+
+This position allowed the threat actor to make changes to the build-pipeline,
+test files and to sign-off and release versions of the software itself to the
+public.
 
 \subsection{Build Pipeline Manipulation}
+
+As introduced before, the attacker 
 
 \begin{itemize}
     \item attacker makes changes to test files 
@@ -56,12 +76,6 @@ sophistication of this backdoor suggests a highly proficient attacker.
 \end{itemize}
 
 \subsection{Modifying ELF \& Executing Shell Code}
-
-\begin{itemize}
-    \item \texttt{openssh} does not depend on \texttt{libzlma}
-    \item common patches link \texttt{openssh} dynamically against \texttt{libsystemd}, which links agains \texttt{liblzma}
-    \item making \texttt{openssh} vulnerable via indirect dependence
-\end{itemize}
 
 \subsection{Prerequisites for the Backdoor}
 
