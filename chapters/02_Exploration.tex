@@ -22,7 +22,7 @@ severness of the included remote code execution \cite{redhat2024cve}. The
 sophistication of this backdoor suggests a highly proficient attacker known by
 several confirmed aliases, such as \textit{Jia Tan} (\texttt{JiaT75}),
 \textit{Jigar Kumar}, \texttt{krygorin4545}, \texttt{misoeater91} and
-\textit{Hans Jansen}.
+\textit{Hans Jansen} \cite{arstechnica2024xzutils}.
 
 \subsection{Social Engineering \& Pressure on OSS Maintainer}
 
@@ -50,14 +50,35 @@ public.
 
 \subsection{Build Pipeline Manipulation}
 
-As introduced before, the attacker 
+As introduced before, the attacker uses this privileged position in the
+maintainer group to make changes to the test files by introducing a file
+called \texttt{build-to-host.m4}\footnote{unix macro processor used in
+\texttt{autoconf} \cite{gnu2021m4}} \footnote{produces scripts to configure
+software \cite{gnu2020autoconf}}. This file is included in the package
+release, but not in the version controlled repository. Furthermore the
+threat actor embeds obfuscated and encrypted stages of the backdoor in two
+test files called \texttt{bad-3-corrupt\_lzma2.xz} and
+\texttt{good-large\_compressed.lzma}.
 
-\begin{itemize}
-    \item attacker makes changes to test files 
-    \item attacker makes changes to build pipeline (autoconf)
-    \item attacker injects malicious shell code into test files
-    \item test files are being decompressed, decrypted and injected into the shared object 
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{c c c}
+        Byte & ASCII & Substitution \\
+        \hline
+        \texttt{0x09} & \texttt{"\textbackslash t"} & \texttt{0x20}\\
+        \texttt{0x20} & \texttt{" "} & \texttt{0x09} \\
+        \texttt{0x2d} & \texttt{"-"} & \texttt{0x5f} \\
+        \texttt{0x5f} & \texttt{"\_"} & \texttt{0x2d} \\
+    \end{tabular}
+    \label{table:replacements}
+    \caption{Substitution table according to \cite{arstechnica2024xzutils}}
+\end{figure}
+
+The aforementioned macro is executed during the build process and
+substitutes characters in the \texttt{bad-3-corrupt\_lzma2.xz} file, as
+shown in \autoref{table:replacements}. Upon having performed the
+substitution, the \texttt{.xz} file is decoded and ready for the first stage
+of the backdoor. 
 
 \subsection{IFUNC \& CPU specific Features}
 
@@ -84,3 +105,4 @@ As introduced before, the attacker
     \item shared object is opened on \texttt{x86-64}
     \item built by \texttt{dpkg} or \texttt{rpm}
 \end{itemize}
+
