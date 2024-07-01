@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int generic_function_linux() { return 1; }
+void generic_function_linux() { puts("linux"); }
 
-int generic_function_windows() { return 2; }
+void generic_function_windows() { puts("windows"); }
 
-int (*select_generic_function())() {
+void (*select_generic_function())() {
 #ifdef __linux__
   return generic_function_linux;
 #elif _WIN32
@@ -17,6 +17,6 @@ int (*select_generic_function())() {
 
 int generic_function() __attribute__((ifunc("select_generic_function")));
 int main() {
-  printf("Result: %d\n", generic_function());
+  generic_function();
   return EXIT_SUCCESS;
 }
