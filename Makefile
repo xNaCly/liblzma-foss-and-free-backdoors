@@ -1,4 +1,4 @@
-all: biber
+all: main biber
 
 biber: main
 	biber liblzma-foss-and-free-backdoors

@@ -1,4 +1,21 @@
-\section{Prevention}
+\section{Conclusion}
+
+In conclusion the \texttt{xz-utils}/\texttt{libzlma} backdoor is the result of
+years of work by a highly sophisticated threat actor. The backdoor
+implementation shows the deep knowledge of low level programming, obscure
+compiler features, execution formats, the open source software supply chain and
+its security while exhibiting the ability for total control over the threat
+actors operational security. No group or individual have taken credit or were
+accredited to have engineered this backdoor.
+
 \subsection{Funding FOSS and OSS}
 \subsection{Vetting Dependency}
-\subsection{Appreciation for FOSS Maintainers}
+
+As shown in \autoref{sec:dependence}, not only the direct dependencies of a
+given software project have to be secure, but their dependencies too. To ensure
+this, a large effort has to be made to vet this source code.
+
+Making sure source code is secure is a combination of static and dynamic
+analysis, testing, fuzzing and human analysis. Ignoring the last method, all
+can be largely automated, human analysis however is a time consuming process
+and requires manual labor.
