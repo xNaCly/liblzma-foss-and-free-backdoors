@@ -211,12 +211,6 @@ containing the backdoor. Specifically this includes the changes from
 \autoref{sec:build_pipeline} and an other file introduced in
 \autoref{sec:build_pipeline}, \texttt{good-large\_compressed.lzma}.
 
-Firstly, said file is decompressed via the \texttt{xz} command line
-application. The resulting blob is then stripped of junk data with the
-\texttt{head} unix tool, while a portion is discarded and subsequently
-deciphered using a custom substitution cipher. Once the data is deciphered, the
-\texttt{xz} suite is used to decompress the resulting blob. 
-
 \begin{figure}[H]
     \centering
 
@@ -236,13 +230,50 @@ deciphered using a custom substitution cipher. Once the data is deciphered, the
         \draw [arrow] (cipher.east) -- ++(1,0) |- node[anchor=west] {} (xz);
         \draw [arrow] (xz.west) -- ++(-1,0) -- node[anchor=east] {} (end.south);
     \end{tikzpicture}
-    \label{chart:dependecies}
+    \label{chart:stage1}
     \caption{Stage 1: backdoor prep}
 \end{figure}
 
-The resulting text is used as the starting point for the second stage of the
-backdoor, specifically this stage encloses the extraction of the backdoor.
+Firstly, said file is decompressed via the \texttt{xz} command line
+application. The resulting blob is then stripped of junk data with the
+\texttt{head} unix tool, while a portion is discarded and subsequently
+deciphered using a custom substitution cipher. Once the data is deciphered, the
+\texttt{xz} suite is used to decompress the resulting blob. See
+\autoref{chart:stage1}.
 
+\begin{figure}[H]
+    \centering
+
+    \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+    \tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+    \tikzstyle{arrow} = [thick,->,>=stealth]
+    \begin{tikzpicture}[node distance=2cm]
+        \node (start) [startstop] {Stage 1};
+        \node (sed) [process, below of=start] {sed};
+        \node (awk) [process, below of=xz] {awk};
+        \node (xz) [process, below of=awk] {xz};
+        \node (end) [startstop, below of=xz] {liblzma\_la-crc64-fast.o};
+
+        \draw [arrow] (start) -- node[anchor=west] {} (sed);
+        \draw [arrow] (sed) -- node[anchor=west] {manipulate} (awk);
+        \draw [arrow] (awk) -- node[anchor=west] {decrypt} (xz);
+        \draw [arrow] (xz) -- node[anchor=west] {decompress} (end);
+    \end{tikzpicture}
+    \label{chart:stage2}
+    \caption{Stage 2: creation of \texttt{liblzma\_la-crc64-fast.o}}
+\end{figure}
+
+As \autoref{chart:stage2} visualises, The resulting text is used as the
+starting point for the second stage of the backdoor, specifically this stage
+encloses the extraction of the backdoor. Stage two at first sets the
+\texttt{LC\_ALL} environment variable to \texttt{C} for the sake of ensuring
+consistent behaviour by using ASCII. The output of the previous stage is
+manipulated with the \texttt{sed} unix package and specifically moving every
+byte encountered to its own line. Once this reformatting is performed, the data
+is decrypted with a stream cipher and decompressed with the \texttt{xz} command
+line application \cite{arstechnica2024xzutils}. The resulting shared object is
+part of the compilation and linking process and is therefore included in the
+resulting binary.
 
 \subsection{Indirect Dependence on libzlma}
 \label{sec:dependence}
