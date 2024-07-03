@@ -1,26 +1,39 @@
 \section{Response}
 
-\subsection{Detection}
-
-\begin{itemize}
-    \item Detected by Andres Freund on 29th March 2024
-    \item PostgreSQL developer
-    \item noticed high CPU usage and Valgrind errors when attempting to connect via SSH
-    \item compromised version not yet deployed to production systems but dev builds
-\end{itemize}
-
+On Match 29th, 2024 \textit{Andres Freund}, a PostgreSQL developer at
+Microsoft, discovered CPU usage spikes and Valgrind errors while attempting
+to establish SSH connections from Debian sid\footnote{Debian Unstable (Sid)
+refers to rolling development version of Debian} using \texttt{openssh}. He
+assesses the \textit{libzlma} distributions \texttt{v5.6.0} and
+\texttt{v5.6.1} to contain the backdoor. According to Freund, the runtime
+impact on an infected system is substantial, specifically logging in via ssh
+introduces a slowdown of around 500ms. \cite{openwall2024backdoor}
 
 \subsection{Software Distributors Reactions}
 
-\begin{itemize}
-    \item Red Hat, SUSE and Debian downgraded \texttt{libzlma} to its previous version
-    \item Ubuntu held the beta release of Ubutun 24.04 LTS back by a week and
-        rebuild all binaries of the distros packages
-\end{itemize}
+After Freud's discovery, Red Hat, SUSE and Debian downgraded their shipped
+\texttt{libzlma} dependency from the affected versions to previous
+distributions, see \cite{redhat2024xz}, \cite{debian2024xz} and
+\cite{suse2024xz}. Ubuntu held back its development release, Ubuntu Noble
+24.04, for a deep-dive and removed the affected library (\texttt{liblzma})
+\cite{ubuntu2024xz}.
 
 \subsection{Supply Chain Security}
 
-\begin{itemize}
-    \item should critical parts of the software supply chain depend on unpaid volunteers
-    \item keeping the supply chain secure
-\end{itemize}
+The social engineering and the pressure on the unpaid volunteer maintaining
+the \text{xz-utils} project started a discussion around the security and
+resilience of such packages and the reasonableness of creating software
+depending on said projects. Several open source packages are used as
+dependencies by large corporations, as maintainers of the famous
+\texttt{ffmpeg} media toolkit state: ''\textit{The xz fiasco has shown how a
+    dependence on unpaid volunteers can cause major problems. Trillion
+dollar corporations expect free and urgent support from volunteers.}``
+\cite{twitter2024ffmpeg}. According to \cite{twitter2024ffmpeg} Microsoft is
+not interested in a support contract for long term maintenance and
+''\textit{[...] offered a one-time payment of a few thousand dollars
+instead...investments in maintenance and sustainability are unsexy [...]}``.
+
+Open source projects are the prime candidate for threat actors to inject
+malware into, due to the fact that the maintainers are volunteers, unpaid
+and most often not supported by companies and organisations who are directly
+benefiting from the software volunteers create, maintain and extend. 

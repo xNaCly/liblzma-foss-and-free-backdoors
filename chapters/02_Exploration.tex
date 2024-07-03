@@ -320,4 +320,14 @@ first being the build toolchain, specifically checking for the usage of
 the package is build on. Furthermore the backdoor is only injected if the
 build target happens to be \texttt{amd64/x86\_64}. These conditions and the
 check if the build is performed in the process of building a Debian or Red
-Hat package mark the injection prerequisites.
+Hat package mark the build injection prerequisites.
+
+However, at runtime the backdoor is hidden by checking several requirements
+before executing: \texttt{liblzma} has to be invoked in the
+\texttt{libsystemd} context, the \texttt{TERM} variable has not been set,
+\texttt{argv[0]} has to be \texttt{/usr/bin/ssh}, \texttt{LD\_DEBUG} and
+\texttt{LD\_PROFILE} were not set, \texttt{LANG} is set and some debuggers
+such as \texttt{rr} and \texttt{gdb} are detected in some situations.
+
+Both requirement chains attempt to hide the injection and execution of the
+backdoor from administrators and security researchers.
