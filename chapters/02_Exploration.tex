@@ -224,11 +224,11 @@ containing the backdoor. Specifically this includes the changes from
         \node (cipher) [process, below of=head] {cipher};
         \node (end) [startstop, left=1cm of start] {bash file};
 
-        \draw [arrow] (start) -- node[anchor=west] {decompress} (xz);
-        \draw [arrow] (xz) -- node[anchor=west] {strip junk} (head);
-        \draw [arrow] (head) -- node[anchor=west] {decipher} (cipher);
-        \draw [arrow] (cipher.east) -- ++(1,0) |- node[anchor=west] {} (xz);
-        \draw [arrow] (xz.west) -- ++(-1,0) -- node[anchor=east] {} (end.south);
+        \draw [arrow] (start) -- node[anchor=west] {} (xz);
+        \draw [arrow] (xz) -- node[anchor=west] {decompress} (head);
+        \draw [arrow] (head) -- node[anchor=west] {strip junk} (cipher);
+        \draw [arrow] (cipher.east) -- ++(1,0) |- node[anchor=west] {decrypt} (xz);
+        \draw [arrow] (xz.west) -- ++(-1,0) -- node[anchor=east] {decompress} (end.south);
     \end{tikzpicture}
     \label{chart:stage1}
     \caption{Stage 1: backdoor prep}
@@ -309,15 +309,15 @@ In this chain of shared objects, the threat actor decided to attach the
 \texttt{openssh} loads the \texttt{libsystemd} dependency. Once this dependency
 is attempted to be loaded, it starts to load its own dependencies, here the
 backdoored \texttt{liblzma}. In this linking stage the before explained
-hijacking of the \texttt{RSA\_public\_decrypt()} function is performed.
-
-The result of this process is a remote code execution in said function.
+hijacking of the \texttt{RSA\_public\_decrypt()} function is performed
+\cite{arstechnica2024xzutils, github2024commit}.
 
 \subsection{Prerequisites for the Backdoor}
 
-\begin{itemize}
-    \item built with \texttt{GCC} and \texttt{glibc}
-    \item shared object is opened on \texttt{x86-64}
-    \item built by \texttt{dpkg} or \texttt{rpm}
-\end{itemize}
-
+The two stages laid out before check several conditions before execting. The
+first being the build toolchain, specifically checking for the usage of
+\texttt{gcc}, \texttt{GNU ld} and the usage of \texttt{glibc} on the system
+the package is build on. Furthermore the backdoor is only injected if the
+build target happens to be \texttt{amd64/x86\_64}. These conditions and the
+check if the build is performed in the process of building a Debian or Red
+Hat package mark the injection prerequisites.
